@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
         primaryColor: primarycolor,
         fontFamily: "roboto-regular",
       ),
-      home: const SplashPage(),
+      home: const SplashInitPage(),
       routes: {
         SplashPage.id: (context) => const SplashPage(),
         LoginPage.id: (context) => LoginPage(),
-        HomePage.id: (context) => const HomePage(),
+        HomePage.id: (context) => HomePage(),
       },
     );
   }
