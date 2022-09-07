@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopbiz/home_page.dart';
+import 'package:shopbiz/screens/main_screen.dart';
 
 class AuthProvider {
   Future<bool> loginWithPhone(BuildContext context, String phone) async {
@@ -14,7 +15,7 @@ class AuthProvider {
         Navigator.pop(context);
         User user = result.user!;
         if (user != null) {
-          Navigator.pushReplacementNamed(context, HomePage.id);
+          Navigator.pushReplacementNamed(context, MainPage.id);
         } else {
           Fluttertoast.showToast(msg: "User is not sign in");
         }
@@ -45,7 +46,7 @@ class AuthProvider {
                           await _auth.signInWithCredential(credential);
                       User user = result.user!;
                       if (user != null) {
-                        Navigator.pushReplacementNamed(context, HomePage.id);
+                        Navigator.pushReplacementNamed(context, MainPage.id);
                         print("success");
                       } else {
                         Fluttertoast.showToast(msg: "Error");

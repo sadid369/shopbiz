@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopbiz/home_page.dart';
 import 'package:shopbiz/login_page.dart';
+import 'package:shopbiz/screens/main_screen.dart';
 
 class SplashInitPage extends StatelessWidget {
   const SplashInitPage({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     _timer = Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, HomePage.id);
+      Navigator.pushReplacementNamed(context, MainPage.id);
     });
   }
 

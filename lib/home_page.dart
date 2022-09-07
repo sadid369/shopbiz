@@ -4,9 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopbiz/login_page.dart';
 
-class HomePage extends StatelessWidget {
-  static const id = "/HomePage";
-  HomePage({Key? key}) : super(key: key);
+class ProfileInitPage extends StatelessWidget {
+  static const id = "/ProfileInitPage";
+  ProfileInitPage({Key? key}) : super(key: key);
   Future signout(BuildContext context) async {
     await FirebaseAuth.instance.signOut().whenComplete(
         () => Navigator.pushReplacementNamed(context, LoginPage.id));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shopbiz/auth_provider.dart';
-import 'package:shopbiz/custom_color.dart';
+import 'package:shopbiz/models/auth_provider.dart';
+import 'package:shopbiz/utils/custom_color.dart';
 
 class LoginPage extends StatelessWidget {
   static const id = "/loginoage";
@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
               height: 200,
             ),
             const SizedBox(
-              height: 100,
+              height: 20,
             ),
             const Text(
               "SHOPBIZ",
