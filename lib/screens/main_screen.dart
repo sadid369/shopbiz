@@ -4,6 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shopbiz/models/category.dart';
+import 'package:shopbiz/utils/decoration.dart';
+import 'package:shopbiz/widgets/app_drawer.dart';
 import 'package:shopbiz/widgets/slider.dart';
 
 import '../utils/constant.dart';
@@ -28,15 +30,19 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Home Page",
+        ),
+      ),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: ListView(
           children: [
             Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.withOpacity(0.3),
-              ),
+              decoration: decoration(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 15,

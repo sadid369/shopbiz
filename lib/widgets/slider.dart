@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shopbiz/utils/constant.dart';
@@ -23,9 +24,10 @@ class CSlider extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  carousel[index].images,
-                  fit: BoxFit.cover,
+                child: Image(
+                  image: CachedNetworkImageProvider(
+                    carousel[index].images,
+                  ),
                 ),
               ),
               Container(
