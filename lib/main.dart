@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primarycolor,
         fontFamily: "roboto-regular",
       ),
-      home: const SplashInitPage(),
+      home: const AddProductPage(),
       routes: {
         SplashPage.id: (context) => const SplashPage(),
         LoginPage.id: (context) => LoginPage(),
