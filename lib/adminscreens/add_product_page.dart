@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:shopbiz/models/category.dart';
+import 'package:shopbiz/models/product_model.dart';
 import 'package:shopbiz/utils/custom_color.dart';
 import 'package:shopbiz/utils/decoration.dart';
 import 'package:shopbiz/utils/text_style.dart';
@@ -24,6 +26,7 @@ class _AddProductPageState extends State<AddProductPage> {
   TextEditingController serialCodeC = TextEditingController();
   TextEditingController priceC = TextEditingController();
   TextEditingController weightC = TextEditingController();
+  TextEditingController brandNameC = TextEditingController();
   TextEditingController quantityC = TextEditingController();
   TextEditingController onSaleC = TextEditingController();
   TextEditingController popularC = TextEditingController();
@@ -32,6 +35,7 @@ class _AddProductPageState extends State<AddProductPage> {
   bool isPopular = false;
   final _key = GlobalKey<FormState>();
   List<XFile>? images = [];
+  List<String> imageUrl = [];
   @override
   void dispose() {
     super.dispose();
@@ -46,9 +50,23 @@ class _AddProductPageState extends State<AddProductPage> {
     discountC.dispose();
   }
 
-  save() {
+  save() async {
     bool isValidate = _key.currentState!.validate();
-    if (isValidate) {}
+    if (isValidate) {
+      await uploadImages();
+      ProductModel product = ProductModel(
+          category: categoryC.text,
+          productName: productNameC.text,
+          serialCode: serialCodeC.text,
+          price: int.parse(priceC.text),
+          weight: double.parse(weightC.text),
+          brandName: brandNameC.text,
+          quantity: int.parse(quantityC.text),
+          imagesUrl: imageUrl,
+          isOnSale: isSale,
+          isPopular: isPopular);
+      ProductModel().addProduct(product);
+    }
   }
 
   @override
@@ -167,6 +185,21 @@ class _AddProductPageState extends State<AddProductPage> {
                     }
                     return null;
                   },
+                  controller: brandNameC,
+                  hint: "Enter Brand Name",
+                  onsubmit: (value) {
+                    setState(() {
+                      brandNameC.text = value;
+                    });
+                  },
+                ),
+                EditField(
+                  validator: (String? v) {
+                    if (v!.isEmpty) {
+                      return "should not be empty";
+                    }
+                    return null;
+                  },
                   controller: quantityC,
                   hint: "Enter Product Quantity",
                   onsubmit: (value) {
@@ -251,6 +284,26 @@ class _AddProductPageState extends State<AddProductPage> {
     }
   }
 
+  Future<String> postImages(XFile imagefile) async {
+    final file = File(imagefile.path);
+    String filename = DateTime.now().microsecondsSinceEpoch.toString();
+    FirebaseStorage db = FirebaseStorage.instance;
+    await db.ref().child("images").child(filename).putFile(file);
+    return db.ref().child('images').child(filename).getDownloadURL();
+  }
+
+  uploadImages() async {
+    for (var image in images!) {
+      await postImages(image)
+          .then(
+        (downloadUrl) => imageUrl.add(downloadUrl),
+      )
+          .catchError((e) {
+        print(e.toString());
+      });
+    }
+  }
+
   Widget buildGridView() {
     return Container(
       width: double.infinity,
@@ -262,13 +315,18 @@ class _AddProductPageState extends State<AddProductPage> {
                 crossAxisCount: 3,
                 children: List.generate(images!.length, (index) {
                   XFile asset = images![index];
-                  return Container(
-                      height: 150,
-                      width: 150,
-                      child: Image.file(
-                        File(asset.path),
-                        fit: BoxFit.cover,
-                      ));
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Container(
+                          height: 150,
+                          width: 150,
+                          child: Image.file(
+                            File(asset.path),
+                            fit: BoxFit.cover,
+                          )),
+                    ),
+                  );
                 }),
               ),
       ),
