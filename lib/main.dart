@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shopbiz/adminscreens/add_product_page.dart';
 import 'package:shopbiz/screens/main_screen.dart';
+import 'package:shopbiz/screens/products/product_page.dart';
 import 'package:shopbiz/utils/custom_color.dart';
 import 'package:shopbiz/home_page.dart';
 import 'package:shopbiz/login_page.dart';
@@ -29,13 +30,14 @@ class MyApp extends StatelessWidget {
         primaryColor: primarycolor,
         fontFamily: "roboto-regular",
       ),
-      home: const AddProductPage(),
+      home: MainPage(),
       routes: {
         SplashPage.id: (context) => const SplashPage(),
         LoginPage.id: (context) => LoginPage(),
         ProfileInitPage.id: (context) => ProfileInitPage(),
         MainPage.id: (context) => MainPage(),
         AddProductPage.id: (context) => const AddProductPage(),
+        ProductPage.id: (context) => ProductPage(),
       },
     );
   }
