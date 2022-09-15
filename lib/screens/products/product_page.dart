@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shopbiz/utils/decoration.dart';
 import 'package:shopbiz/utils/text_style.dart';
 
@@ -41,17 +42,71 @@ class ProductPage extends StatelessWidget {
               return CircularProgressIndicator();
             }
             final values = snapshot.data!.docs;
+
             return values.length > 0
-                ? ListView.builder(
+                ? GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
                     itemCount: values.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: decoration(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(values[index]['brandName']),
+                          child: Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  values[index]['imagesUrl'][0],
+                                  fit: BoxFit.cover,
+                                  height: 400,
+                                  width: double.infinity,
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black87,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            FontAwesomeIcons.heart,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          values[index]['productName'],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            FontAwesomeIcons.cartPlus,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );
