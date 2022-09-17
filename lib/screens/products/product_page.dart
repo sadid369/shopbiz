@@ -2,14 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shopbiz/utils/custom_color.dart';
 import 'package:shopbiz/utils/decoration.dart';
 import 'package:shopbiz/utils/text_style.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   static const id = "/productPage";
-  FirebaseFirestore db = FirebaseFirestore.instance;
+
   ProductPage({Key? key}) : super(key: key);
 
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  bool isFavorite = false;
+  List favorites = [];
   @override
   Widget build(BuildContext context) {
     final data =
@@ -78,11 +87,33 @@ class ProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            FontAwesomeIcons.heart,
-                                            color: Colors.white,
-                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              // isFavorite = !isFavorite;
+                                              if (favorites.contains(
+                                                  values[index]
+                                                      ['productName'])) {
+                                                favorites.remove(values[index]
+                                                    ['productName']);
+                                                print(favorites);
+                                                isFavorite = false;
+                                              } else {
+                                                favorites.add(values[index]
+                                                    ['productName']);
+                                                print(favorites);
+                                                isFavorite = true;
+                                              }
+                                            });
+                                          },
+                                          icon: isFavorite
+                                              ? const Icon(
+                                                  FontAwesomeIcons.heart,
+                                                  color: Colors.white,
+                                                )
+                                              : const Icon(
+                                                  FontAwesomeIcons.solidHeart,
+                                                  color: Colors.white,
+                                                ),
                                         ),
                                       ),
                                       Expanded(
